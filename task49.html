@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cloud Storage Upload</title>
+</head>
+<body>
+
+    <h2>Upload Image to Cloudinary</h2>
+
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+
+    <p id="message"></p>
+
+    <script>
+        async function uploadImage() {
+            const file = document.getElementById("fileInput").files[0];
+
+            if (!file) {
+                alert("Select an image first");
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append("image", file);
+
+            const response = await fetch("http://localhost:3000/upload", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            document.getElementById("message").innerHTML =
+                "Uploaded Successfully!<br><a href='" +
+                data.url +
+                "' target='_blank'>View Image</a>";
+        }
+    </script>
+
+</body>
+</html>
